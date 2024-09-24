@@ -1,32 +1,33 @@
-//List.tsx
-import React from "react";
+// List.tsx
 
+import React from "react";
+import { useSelector } from 'react-redux';
+import { CardsState } from '../slices/cardsSlice'; 
 import DeleteListButton from "./DeleteListButton";
 import Card from "./Card";
 import NewCardForm from "./NewCardForm";
+import { Lists } from '../slices/listsSlice';
 
-interface ListProps {
-	id: string
+export interface ListProps {
+    list: Lists; 
+    onDeleteList: (listId: string) => void;
 }
 
-const List: React.FC<ListProps> = ({ id }) => {
-	const cards = [
-		{ id: "card1", title: "Card 1", description: "Description for Card 1" },
-		{ id: "card2", title: "Card 2", description: "Description for Card 2" },
-		{ id: "card3", title: "Card 3", description: "Description for Card 3" }
-	];
-	
+const List: React.FC<ListProps> = ({ list, onDeleteList }) => { // Use typeof List here
+    const cards = useSelector((state: { cards: CardsState }) => 
+        state.cards.cards.filter(card => list.cardIds.includes(card.id))
+    );
 
-	return (
-		<div className="group/list h-full min-w-96 p-4 text-center">
-			<DeleteListButton listId={id}/>
-			<h3>To Do</h3>
-			{cards.map((card) => (
-				<Card key={card.id} id={card.id} /> 
-			))}
-			<NewCardForm />
-		</div>
-	)
+    return (
+        <div className="group/list h-full min-w-96 p-4 text-center">
+            <DeleteListButton listId={list.id} onDeleteList={onDeleteList} />
+            <h3>{list.title}</h3> 
+            {cards.map((card) => (
+            <Card key={card.id} card={card} listId={list.id} />
+        ))}
+            <NewCardForm listId={list.id} /> 
+        </div>
+    );
 }
 
 export default List;

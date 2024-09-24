@@ -1,19 +1,20 @@
-//DeleteListButton.tsx
+/// DeleteListButton.tsx
+
 import React from "react";
 
 interface DeleteListButtonProps {
-	listId: string
+    listId: string;
+    onDeleteList: (listId: string) => void; 
 }
 
-const DeleteListButton: React.FC<DeleteListButtonProps> = ({ listId }) => {
-	const handleDeleteList = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		console.log("Deleting list with ID:", listId);
-		alert('Delete card');
-	};
+const DeleteListButton: React.FC<DeleteListButtonProps> = ({ listId, onDeleteList }) => {
+    const handleDeleteList = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        onDeleteList(listId); 
+    };
 
-	return (
-		<button className="h-[30px]" onClick={ handleDeleteList }>
+    return (
+        <button className="h-[30px]" onClick={ handleDeleteList }>
             <svg
 				className="hidden h-[30px] w-[30px] cursor-pointer group-hover/list:block"
 				xmlns="http://www.w3.org/2000/svg"

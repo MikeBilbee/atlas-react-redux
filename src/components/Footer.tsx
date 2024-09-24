@@ -1,14 +1,20 @@
 //Footer.tsx
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearBoard as clearLists } from '../slices/listsSlice';
+import { clearBoard as clearCards } from '../slices/cardsSlice';
 
 const Footer = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		alert('Create list');
 	};
-	
+
+	const dispatch = useDispatch();
+
 	const handleClearBoard = () => {
-		alert('Clear board');
+		dispatch(clearLists());
+		dispatch(clearCards());
 	};
 
 	return (

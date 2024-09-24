@@ -1,15 +1,22 @@
-//DeleteCardButton.tsx
+// DeleteCardButton.tsx
+
 import React from "react";
+import { useDispatch } from 'react-redux';
+import { deleteCard } from '../slices/cardsSlice';
+import { removeCardFromList } from '../slices/listsSlice'; 
 
 interface DeleteCardButtonProps {
-	cardId: string; 
+	cardId: string;
+	listId: string;
+	onDeleteCard: () => void;
 }
 
-const DeleteCardButton: React.FC<DeleteCardButtonProps> = ({ cardId }) => {
-	const handleDeleteCard = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		console.log("Deleting card with ID:", cardId);
-		alert('Delete card');
+const DeleteCardButton: React.FC<DeleteCardButtonProps> = ({ cardId, listId }) => {
+	const dispatch = useDispatch();
+
+	const handleDeleteCard = () => {
+		dispatch(deleteCard(cardId)); 
+		dispatch(removeCardFromList({ listId, cardId })); 
 	};
 
 	return (
