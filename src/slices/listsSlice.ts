@@ -13,12 +13,11 @@ export interface ListsState {
 }
 
 const initialState: ListsState = {
-	lists: [
-		{ id: "list1", title: "To Do", cardIds: ["card1", "card2", "card3"] },
-		{ id: "list2", title: "In Progress", cardIds: ["card1", "card2", "card3"] },
-		{ id: "list3", title: "Done", cardIds: ["card1", "card2", "card3"] },
-		{ id: 'placeholder-list', title: 'Add a list...', cardIds: [] }
-	],
+    lists: [
+        { id: "list1", title: "To Do", cardIds: [] },
+        { id: "list2", title: "In Progress", cardIds: [] },
+        { id: "list3", title: "Done", cardIds: [] },
+    ],
 };
 
 

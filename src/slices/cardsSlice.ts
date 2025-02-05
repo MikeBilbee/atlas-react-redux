@@ -1,29 +1,25 @@
 // src/slices/cardsSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface Card {
+export interface CardType {
 	id: string;
 	title: string;
 	description: string;
 }
 
 export interface CardsState {
-	cards: Card[];
+	cards: CardType[];
 }
 
 const initialState: CardsState = {
-	cards: [
-		{ id: "card1", title: "Lorem ipsum dolor", description: "Sed viverra, diam eu facilisis bibendum, anto orci placerat quam" },
-		{ id: "card2", title: "Lorem ipsum dolor", description: "Sed viverra, diam eu facilisis bibendum, anto orci placerat quam" },
-		{ id: "card3", title: "Lorem ipsum dolor", description: "Sed viverra, diam eu facilisis bibendum, anto orci placerat quam" },
-	],
+    cards: [],
 };
 
 const cardsSlice = createSlice({
 	name: 'cards',
 	initialState,
 	reducers: {
-		createCard: (state, action: PayloadAction<Card>) => {
+		createCard: (state, action: PayloadAction<CardType>) => {
 			state.cards.push(action.payload);
 		},
 		deleteCard: (state, action: PayloadAction<string>) => {

@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import { deleteCard } from '../slices/cardsSlice';
 import { removeCardFromList } from '../slices/listsSlice'
 import DeleteCardButton from "./DeleteCardButton";
-import { Card as CardType } from '../slices/cardsSlice';
+import { CardType } from '../slices/cardsSlice';
 
 interface CardProps {
     card: CardType;
-    listId: string; // Add listId to the CardProps interface
+    listId: string;
 }
 
-const Card: React.FC<CardProps> = ({ card, listId }) => { // Receive listId as a prop
+const Card: React.FC<CardProps> = ({ card, listId }) => {
     const dispatch = useDispatch();
 
     const handleDeleteCard = () => {
