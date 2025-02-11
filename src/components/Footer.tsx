@@ -1,16 +1,24 @@
 //Footer.tsx
-import React from 'react';
+import { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { addList } from '../slices/listsSlice';
 import { clearBoard as clearLists } from '../slices/listsSlice';
 import { clearBoard as clearCards } from '../slices/cardsSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const Footer = () => {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		alert('Create list');
-	};
+	const [listTitle, setListTitle] = useState('');
 
 	const dispatch = useDispatch();
+
+	const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        if (listTitle.trim()!== '') {
+            const newId = uuidv4();
+            dispatch(addList({ id: newId, title: listTitle }));
+            setListTitle('');
+        }
+    };
 
 	const handleClearBoard = () => {
 		dispatch(clearLists());
@@ -26,6 +34,8 @@ const Footer = () => {
 					type="text"
 					placeholder="List title"
 					name="title"
+					value={listTitle}
+                    onChange={(e) => setListTitle(e.target.value)}
 					className="border-0 bg-transparent text-2xl font-semibold text-blue placeholder:text-blue placeholder:opacity-50 focus:outline-none"
 				/>
 				<button

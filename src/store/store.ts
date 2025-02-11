@@ -1,15 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
-import listsReducer from '../slices/listsSlice';
-import cardsReducer from '../slices/cardsSlice';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import listsSlice from '../slices/listsSlice';
+import cardsSlice from '../slices/cardsSlice';
+
+const persistConfig = {
+    key: 'root',
+    storage,
+};
+
+const persistedListsReducer = persistReducer(persistConfig, listsSlice);
+const persistedCardsReducer = persistReducer(persistConfig, cardsSlice);
 
 const store = configureStore({
-	reducer: {
-		lists: listsReducer,
-		cards: cardsReducer,
-	},
+    reducer: {
+        lists: persistedListsReducer,
+        cards: persistedCardsReducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+const persistor = persistStore(store);
 
-export default store;
+export { store, persistor };
