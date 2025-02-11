@@ -10,7 +10,7 @@ interface DeleteListButtonProps {
 const DeleteListButton: React.FC<DeleteListButtonProps> = ({ listId, onDeleteList }) => {
     const handleDeleteList = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        onDeleteList(listId); 
+        onDeleteList(listId);
     };
 
     return (

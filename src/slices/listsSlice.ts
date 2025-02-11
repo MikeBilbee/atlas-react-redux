@@ -12,6 +12,14 @@ export interface ListsState {
 	lists: Lists[];
 }
 
+interface MoveCardPayload {
+    activeListId: string;
+    overListId: string;
+    activeIndex: number;
+    overIndex: number;
+    cardId: string;
+}
+
 const initialState: ListsState = {
     lists: [
         { id: "list1", title: "To Do", cardIds: [] },
@@ -51,29 +59,25 @@ const listsSlice = createSlice({
 				list.cardIds = list.cardIds.filter(id => id !== action.payload.cardId);
 			}
 		},
-		moveCard: (state, action: PayloadAction<{
-			activeListId: string;
-			overListId: string;
-			activeIndex: number;
-			overIndex: number;
-		}>) => {
-			const { activeListId, overListId, activeIndex, overIndex } = action.payload;
-			if (activeListId === overListId) {
-				const list = state.lists.find((list) => list.id === activeListId);
-				if (list) {
-					const [removedCardId] = list.cardIds.splice(activeIndex, 1);
-					list.cardIds.splice(overIndex, 0, removedCardId);
-				}
-			} else {
-				const activeList = state.lists.find((list) => list.id === activeListId);
-				const overList = state.lists.find((list) => list.id === overListId);
+		moveCard: (state, action: PayloadAction<MoveCardPayload>) => {
+            const { activeListId, overListId, activeIndex, overIndex, cardId } = action.payload;
 
-				if (activeList && overList) {
-					const [removedCardId] = activeList.cardIds.splice(activeIndex, 1);
-					overList.cardIds.splice(overIndex, 0, removedCardId);
-				}
-			}
-		},
+            const activeListIndex = state.lists.findIndex((list) => list.id === activeListId);
+            const overListIndex = state.lists.findIndex((list) => list.id === overListId);
+
+            if (activeListIndex!== -1 && overListIndex!== -1) {
+                const activeList = state.lists[activeListIndex];
+                const overList = state.lists[overListIndex];
+
+                activeList.cardIds.splice(activeIndex, 1);
+
+                overList.cardIds.splice(overIndex, 0, cardId);
+
+                state.lists[activeListIndex] = {...activeList};
+                state.lists[overListIndex] = {...overList};
+
+            }
+        },
 	},
 });
 

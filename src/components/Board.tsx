@@ -39,11 +39,12 @@ const Board = () => {
 			setActiveId(null); // Reset activeId
 	
 			if (over && active.id !== over.id) {
-				// Only proceed if the drop target is different
-				const activeListId = active.data.current?.listId;
-				const overListId = over.id;
+				const activeListId = String(active.data.current?.listId);
+				const overListId = String(over.id);
 	
 				const activeCardId = active.data.current?.cardId;
+				const activeIndex = active.data.current?.index ?? 0;
+
 				const isOverListValid = lists.some((list) => list.id === overListId);
 	
 				if (activeCardId && activeListId && overListId && isOverListValid) {
@@ -55,8 +56,9 @@ const Board = () => {
 							moveCard({
 								activeListId,
 								overListId,
-								activeIndex: active.data.current.index,
+								activeIndex,
 								overIndex: over.data.current?.index || 0,
+								cardId: activeCardId,
 							})
 						);
 					} else {
